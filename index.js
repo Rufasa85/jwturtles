@@ -26,11 +26,35 @@ app.get('/',(req,res)=>{
 app.get('/seed', (req, res) => {
     db.User.findAll().then(users => {
         if (!users) {
-            require("./seeds/userSeeds")();
-            require("./seeds/turtleSeeds")();
-            res.send("done")
+            db.User.bulkCreate([
+                {
+                    userName: "Joe",
+                    password: "password"
+                },
+                {
+                    userName: "Denis",
+                    password: "passwordz"
+                },
+            ]).then(data=>{
+                db.Turtle.bulkCreate([
+                    {
+                        name:'Leonardo',
+                        UserId:1
+                    },
+                    {
+                        name:"Donatello",
+                        UserId:1
+                    },{
+                        name:"Raphael",
+                        UserId:2
+                    }
+                ]).then(data2=>{
+                    console.log("turtle power")
+                    res.send("seeded")
+                })
+            });
         } else {
-            res.send("done")
+            res.send("not empty")
         }
     })
 })
