@@ -1,0 +1,2 @@
+require("./userSeeds")();
+require("./turtleSeeds")();
