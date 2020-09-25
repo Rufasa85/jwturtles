@@ -18,10 +18,22 @@ app.use(express.static('public'));
 app.use(cors())
 
 
-app.use('/',allRoutes);
+app.use('/', allRoutes);
 
-db.sequelize.sync({ force: false }).then(function() {
-    app.listen(PORT, function() {
-    console.log('App listening on PORT ' + PORT);
+app.get('/',(req,res)=>{
+    res.send("turtls")
+})
+app.get('/seed', (req, res) => {
+    db.User.findAll().then(users => {
+        if (!users) {
+            require("./seeds/userSeeds")();
+            require("./seeds/turtleSeeds")();
+        }
+    })
+})
+
+db.sequelize.sync({ force: false }).then(function () {
+    app.listen(PORT, function () {
+        console.log('App listening on PORT ' + PORT);
     });
 });
