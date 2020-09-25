@@ -28,6 +28,9 @@ app.get('/seed', (req, res) => {
         if (!users) {
             require("./seeds/userSeeds")();
             require("./seeds/turtleSeeds")();
+            res.send("done")
+        } else {
+            res.send("done")
         }
     })
 })
